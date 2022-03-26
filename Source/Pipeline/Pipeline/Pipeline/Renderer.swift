@@ -55,6 +55,7 @@ class Renderer : NSObject {
     var mesh: MTKMesh!
     var vertexBuffer: MTLBuffer!
     var pipelineState: MTLRenderPipelineState!
+    var timer: Float = 0
 }
 
 extension Renderer : MTKViewDelegate {
@@ -70,6 +71,11 @@ extension Renderer : MTKViewDelegate {
         }
         
         // Drawing code goes here
+        timer += 0.05
+        var currentTime = sin(timer)
+        renderEncoder.setVertexBytes(&currentTime, length: MemoryLayout<Float>.stride, index: 1)
+        
+        
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         for submesh in mesh.submeshes {
