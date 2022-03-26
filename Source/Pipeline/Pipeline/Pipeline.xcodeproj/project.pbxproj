@@ -12,6 +12,8 @@
 		BFB1631727EEAE3700711749 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFB1631627EEAE3700711749 /* Assets.xcassets */; };
 		BFB1631A27EEAE3700711749 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFB1631827EEAE3700711749 /* Main.storyboard */; };
 		BFB1632227EEB09B00711749 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB1632127EEB09B00711749 /* Renderer.swift */; };
+		BFB1632427EEBD1700711749 /* Primitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB1632327EEBD1700711749 /* Primitive.swift */; };
+		BFB1632627EEC20C00711749 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = BFB1632527EEC20C00711749 /* Shaders.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		BFB1631927EEAE3700711749 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFB1631B27EEAE3700711749 /* Pipeline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pipeline.entitlements; sourceTree = "<group>"; };
 		BFB1632127EEB09B00711749 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		BFB1632327EEBD1700711749 /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
+		BFB1632527EEC20C00711749 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				BFB1631827EEAE3700711749 /* Main.storyboard */,
 				BFB1631B27EEAE3700711749 /* Pipeline.entitlements */,
 				BFB1632127EEB09B00711749 /* Renderer.swift */,
+				BFB1632327EEBD1700711749 /* Primitive.swift */,
+				BFB1632527EEC20C00711749 /* Shaders.metal */,
 			);
 			path = Pipeline;
 			sourceTree = "<group>";
@@ -137,6 +143,8 @@
 				BFB1631527EEAE3600711749 /* ViewController.swift in Sources */,
 				BFB1632227EEB09B00711749 /* Renderer.swift in Sources */,
 				BFB1631327EEAE3600711749 /* AppDelegate.swift in Sources */,
+				BFB1632427EEBD1700711749 /* Primitive.swift in Sources */,
+				BFB1632627EEC20C00711749 /* Shaders.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
