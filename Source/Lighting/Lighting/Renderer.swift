@@ -115,7 +115,8 @@ extension Renderer: MTKViewDelegate {
     for model in models {
       // model matrix now comes from the Model's superclass: Node
       uniforms.modelMatrix = model.modelMatrix
-      
+        uniforms.normalMatrix = uniforms.modelMatrix.upperLeft  
+        
       renderEncoder.setVertexBytes(&uniforms,
                                    length: MemoryLayout<Uniforms>.stride, index: 1)
       
@@ -136,7 +137,8 @@ extension Renderer: MTKViewDelegate {
         }
       }
     }
-
+      
+      debugLights(renderEncoder: renderEncoder, lightType: Sunlight)
     renderEncoder.endEncoding()
     guard let drawable = view.currentDrawable else {
       return

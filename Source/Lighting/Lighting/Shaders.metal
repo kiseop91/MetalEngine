@@ -10,7 +10,8 @@ struct VertexIn {
 
 struct VertexOut {
     float4 position [[position]];
-    float3 normal;
+    float3 worldPosition;
+    float3 worldNormal;
 };
 
 vertex VertexOut
@@ -18,15 +19,29 @@ vertex_main(const VertexIn vertexIn [[stage_in]], constant Uniforms &uniforms [[
 {
     VertexOut out {
         .position = uniforms.projectionMatrix * uniforms.viewMatrix * uniforms.modelMatrix * vertexIn.position,
-        .normal = vertexIn.normal };
+        .worldPosition = (uniforms.modelMatrix * vertexIn.position).xyz,
+        .worldNormal = uniforms.normalMatrix * vertexIn.normal
+        
+    };
     
     return out;
 }
 
-fragment float4 fragment_main(VertexOut in [[stage_in]]) {
-    float4 sky = float4(0.34, 0.9, 1.0, 1.0);
-    float4 earth = float4(0.29, 0.58, 0.2, 1.0);
-    float intensity = in.normal.y * 0.5 + 0.5;
-    return mix(earth, sky, intensity);
+fragment float4 fragment_main(VertexOut in [[stage_in]],
+                              constant Light *lights [[buffer(2)]],
+                              constant FragmentUniforms &fragmentUniforms [[buffer(3)]])
+{
+    float3 baseColor = float3(0,0,1);
+    float3 diffuseColor = 0;
+    float3 normalDirection = normalize(in.worldNormal);
+    for(uint i = 0; i< fragmentUniforms.lightCount; i++){
+        Light light = lights[i];
+        if(light.type == Sunlight){
+            float3 lightDirection = normalize(-light.position);
+            float diffuseIntensity = saturate(-dot(lightDirection, normalDirection));
+            diffuseColor += light.color * baseColor * diffuseIntensity;
+        }
+    }
+    float3 color = diffuseColor;
+    return float4(color, 1);
 }
-

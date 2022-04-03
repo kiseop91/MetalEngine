@@ -24,7 +24,7 @@ extension Renderer {
   }
   
    // uncomment when you have defined `lights`
-  /*
+  
   func debugLights(renderEncoder: MTLRenderCommandEncoder, lightType: LightType) {
     for light in lights where light.type == lightType {
       switch light.type {
@@ -46,7 +46,7 @@ extension Renderer {
       }
     }
   }
- */
+ 
   
   func drawPointLight(renderEncoder: MTLRenderCommandEncoder, position: float3, color: float3) {
     var vertices = [position]

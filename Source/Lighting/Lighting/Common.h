@@ -8,6 +8,7 @@ typedef struct {
   matrix_float4x4 modelMatrix;
   matrix_float4x4 viewMatrix;
   matrix_float4x4 projectionMatrix;
+  matrix_float3x3 normalMatrix;
 } Uniforms;
 
 typedef enum{
@@ -31,6 +32,7 @@ typedef struct {
     uint lightCount;
     vector_float3 cameraPosition;
 } FragmentUniforms;
+
 
 
 #endif /* Common_h */
