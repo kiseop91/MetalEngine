@@ -33,7 +33,28 @@ class Renderer: NSObject {
         descriptor.isDepthWriteEnabled = true
         return Renderer.device.makeDepthStencilState(descriptor: descriptor)
     }
-  
+    
+    func buildDefaultLight() -> Light {
+        var light = Light()
+        light.position = [0, 0, 0]
+        light.color = [1, 1, 1]
+        light.specularColor = [0.6, 0.6, 0.6]
+        light.intensity = 1
+        light.attenuation = float3(1, 0, 0)
+        light.type = Sunlight
+        return light
+    }
+    
+    lazy var sunlight: Light = {
+        var light = buildDefaultLight()
+        light.position = [1,2,-2]
+        return light
+    }()
+    
+    var lights: [Light] = []
+    var fragmentUniforms = FragmentUniforms()
+    
+    
   init(metalView: MTKView) {
     guard
       let device = MTLCreateSystemDefaultDevice(),
@@ -60,6 +81,11 @@ class Renderer: NSObject {
     models.append(train)
     
     mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
+      
+      lights.append(sunlight)
+      fragmentUniforms.lightCount = UInt32(lights.count)
+      
+      
   }
 }
 
@@ -82,6 +108,9 @@ extension Renderer: MTKViewDelegate {
     uniforms.projectionMatrix = camera.projectionMatrix
     uniforms.viewMatrix = camera.viewMatrix
     
+      renderEncoder.setFragmentBytes(&lights, length: MemoryLayout<Light>.stride * lights.count, index: 2)
+      renderEncoder.setFragmentBytes(&fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride, index: 3)
+      
     // render all the models in the array
     for model in models {
       // model matrix now comes from the Model's superclass: Node
