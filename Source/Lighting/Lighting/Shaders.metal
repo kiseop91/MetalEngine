@@ -4,18 +4,26 @@ using namespace metal;
 #import "Common.h"
 
 struct VertexIn {
-  float4 position [[attribute(0)]];
+    float4 position [[attribute(0)]];
+    float3 normal [[attribute(1)]];
 };
 
-vertex float4 vertex_main(const VertexIn vertexIn [[stage_in]],
-                          constant Uniforms &uniforms [[buffer(1)]])
+struct VertexOut {
+    float4 position [[position]];
+    float3 normal;
+};
+
+vertex VertexOut
+vertex_main(const VertexIn vertexIn [[stage_in]], constant Uniforms &uniforms [[buffer(1)]])
 {
-  float4 position = uniforms.projectionMatrix * uniforms.viewMatrix
-  * uniforms.modelMatrix * vertexIn.position;
-  return position;
+    VertexOut out {
+        .position = uniforms.projectionMatrix * uniforms.viewMatrix * uniforms.modelMatrix * vertexIn.position,
+        .normal = vertexIn.normal };
+    
+    return out;
 }
 
-fragment float4 fragment_main() {
-  return float4(0, 0, 1, 1);
+fragment float4 fragment_main(VertexOut in [[stage_in]]) {
+  return float4(in.normal, 1);
 }
 
