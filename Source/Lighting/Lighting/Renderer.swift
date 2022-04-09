@@ -51,6 +51,14 @@ class Renderer: NSObject {
         return light
     }()
     
+    lazy var ambientLight: Light = {
+       var light = buildDefaultLight()
+        light.intensity = 0.1
+        light.color = [0.5, 1, 0]
+        light.type = Ambientlight
+        return light
+    }()
+    
     var lights: [Light] = []
     var fragmentUniforms = FragmentUniforms()
     
@@ -83,6 +91,7 @@ class Renderer: NSObject {
     mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
       
       lights.append(sunlight)
+      lights.append(ambientLight)
       fragmentUniforms.lightCount = UInt32(lights.count)
       
       
@@ -107,6 +116,7 @@ extension Renderer: MTKViewDelegate {
     
     uniforms.projectionMatrix = camera.projectionMatrix
     uniforms.viewMatrix = camera.viewMatrix
+    fragmentUniforms.cameraPosition = camera.position
     
       renderEncoder.setFragmentBytes(&lights, length: MemoryLayout<Light>.stride * lights.count, index: 2)
       renderEncoder.setFragmentBytes(&fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride, index: 3)
