@@ -13,8 +13,8 @@ class Renderer: NSObject {
   // Camera holds view and projection matrices
   lazy var camera: Camera = {
     let camera = ArcballCamera()
-    camera.distance = 2
-    camera.target = [0, 0.5, 0]
+      camera.distance = 2.5
+      camera.target = [0.5, 0.5, 0]
     camera.rotation.x = Float(-10).degreesToRadians
     return camera
   }()
@@ -84,8 +84,14 @@ class Renderer: NSObject {
     
     // add the model to the scene
     let train = Model(name: "train.obj")
+      
     train.position = [0, 0, 0]
     train.rotation = [0, Float(45).degreesToRadians, 0]
+    
+    let fir = Model(name: "treefir.obj")
+    fir.position = [1.4, 0, 0]
+     
+      models.append(fir)
     models.append(train)
     
     mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
