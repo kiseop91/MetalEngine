@@ -68,6 +68,19 @@ class Renderer: NSObject {
         return light
     }()
     
+    lazy var spotlight: Light = {
+       var light = buildDefaultLight()
+        light.position = [0.4, 0.8, 1]
+        light.type = Spotlight
+        light.color = [1, 0, 1]
+        light.attenuation = float3(1, 0.5, 0)
+        light.coneAngle = Float(40).degreesToRadians
+        light.coneDirection = [-2, 0, -1.5]
+        light.coneAttenuation = 12
+        return light
+    }()
+    
+    
     var lights: [Light] = []
     var fragmentUniforms = FragmentUniforms()
     
@@ -108,6 +121,7 @@ class Renderer: NSObject {
       lights.append(sunlight)
       lights.append(ambientLight)
       lights.append(redLight)
+      lights.append(spotlight)
       fragmentUniforms.lightCount = UInt32(lights.count)
       
       
@@ -165,7 +179,9 @@ extension Renderer: MTKViewDelegate {
     }
       
       debugLights(renderEncoder: renderEncoder, lightType: Pointlight)
-    renderEncoder.endEncoding()
+      debugLights(renderEncoder: renderEncoder, lightType: Spotlight)
+      
+      renderEncoder.endEncoding()
     guard let drawable = view.currentDrawable else {
       return
     }
